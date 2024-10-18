@@ -1,0 +1,18 @@
+
+--Test trg_UpdateAchievementStatus AND trg_UpdateGlobalAchievementPercentage
+UPDATE PersonalAchievement SET ProgressPercentage = 100.00 WHERE SteamID = 'U11029876' AND AchievementID = '8'
+SELECT * FROM PersonalAchievement WHERE SteamID = 'U11029876' AND AchievementID = '8'
+SELECT GlobalAchievementPercentage FROM Achievement WHERE AchievementID = '8'
+
+
+--Test GetTotalSpending function
+SELECT dbo.GetTotalSpending('U293004458') AS TotalSpending;
+
+--Test GetGamesByGenre function
+SELECT * FROM dbo.GetGamesByGenre(1);
+
+--Test GetAccountTransactions procedure
+EXEC GetAccountTransactions @SteamID = 'U293004458';
+
+--Test AddGameToLibrary procedure
+EXEC AddGameToLibrary @SteamID = 'U11029876', @GameId = 8;

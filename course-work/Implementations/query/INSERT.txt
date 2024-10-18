@@ -1,0 +1,231 @@
+
+INSERT INTO SteamAccount (SteamID, Username, DisplayName, Password, Email, PhoneNumber, TwoFactorAuth, Balance)
+VALUES
+('U32486649', 'ventsislav', 'UNISHTOJITELQ', 'OhUa6fDI24ZZ95N', 'stu1801322003@uni-plovdiv.bg', '0896014019', 1, 500.0),
+('U8059985', 'stanislav', 'YA_BOI', 'JeZsSINfIZcCbD3', 'stu1801322003@uni-plovdiv.bg', '0897541293', 1, 500.0),
+('U592950924', 'big_gamer123', 'Hulk', '9L37FpTMoQFiLxw', 'biggamer@gmail.com', '1234567890', 1, 150.00),
+('U293004458', 'annihilator3000', 'A-3000', 'auAUMtyfJNNG5iy', 'annihilator@abv.bg', '2345678901', 0, 50.00),
+('U7081294', 'fresh78', 'FRESH', 'JJewNldDRnwhRil', 'fresh78@gmail.com', '3456789012', 1, 200.00),
+('U93620951', 'lady_24', 'Selena', 'pzjwPwenyoPvmi3', 'lady24@gmail.com', '4567890123', 0, 75.00),
+('U24696879', 'cat_enjoyer', 'Santa Claus', 'ag52FdlfDrcxMbs', 'tonysoprano@example.com', '+12983819238', 0, 75.00),
+('U59664725', 'gorilla', 'SILVERBACK GORILLA', 'Dn1yyQk6ePl3SCj', 'gamer4@example.com', '12741275172134', 0, 75.00),
+('U93456789', 'gamerx99', 'X-MASTER', 'HD73jUsplZ29sLx', 'gamerx99@example.com', '6789345678', 1, 250.0),
+('U46234598', 'dragon_slayer', 'DracoKnight', 'Kfj3DDvGhf4so27', 'dragon_slayer@example.com', '9876543210', 1, 325.00),
+('U11029876', 'pro_gamer_2024', 'ProG2024', 'Zxs84Slp0OpM4u8', 'progamer@example.com', '1123456789', 0, 400.00),
+('U75839245', 'speedster', 'FastLane', 'Lmn63DfS8tNcKl1', 'speedster@example.com', '2234567890', 1, 500.00),
+('U99813452', 'zombie_hunter', 'Z0MBIEHUNTER', 'UjL42DlG7wJzHt9', 'hunterz@example.com', '3345678901', 1, 180.00);
+
+
+INSERT INTO Genre (GenreID, [Name])
+VALUES
+(1, 'Action'),
+(2, 'Adventure'),
+(3, 'RPG'),
+(4, 'Simulation'),
+(5, 'Horror'),
+(6, 'Open World'),
+(7, 'FPS'),
+(8, 'Racing');
+
+
+INSERT INTO Game (GameID, Name, Publisher, ReleaseDate, Price, SpaceRequired, DiscountPercentage)
+VALUES
+(1, 'Action Blast', 'Epic Games', '2022-01-15', 59.99, 20.0, 10),
+(2, 'Adventure Quest', 'Ubisoft', '2021-11-11', 49.99, 15.0, 0),
+(3, 'RPG Legends', 'Square Enix', '2023-02-25', 69.99, 25.0, 20),
+(4, 'Sim World', 'Maxis', '2020-05-10', 39.99, 10.0, 5),
+(5, 'Haunted Night', 'Capcom', '2021-10-31', 45.99, 18.0, 15),
+(6, 'Zombie Apocalypse', 'Valve', '2022-03-12', 39.99, 22.5, 15),
+(7, 'Dragon Fury', 'Bandai Namco', '2021-09-07', 59.99, 30.0, 5),
+(8, 'Pro Racing', 'Codemasters', '2023-06-15', 49.99, 18.0, 10),
+(9, 'Mystery Mansion', 'Kojima Productions', '2022-10-31', 44.99, 25.0, 20),
+(10, 'Future War', 'Blizzard', '2023-01-22', 69.99, 35.0, 0),
+(11, 'Elden Ring', 'Bandai Namco', '2022-02-25', 59.99, 45.0, 10),
+(12, 'Horizon Forbidden West', 'Sony Interactive Entertainment', '2022-02-18', 69.99, 90.0, 15),
+(13, 'Halo Infinite', 'Xbox Game Studios', '2021-12-08', 59.99, 50.0, 5),
+(14, 'Resident Evil Village', 'Capcom', '2021-05-07', 59.99, 30.0, 20),
+(15, 'Forza Horizon 5', 'Xbox Game Studios', '2021-11-09', 59.99, 103.0, 0),
+(16, 'Call of Duty: Modern Warfare II', 'Activision', '2022-10-28', 69.99, 120.0, 10),
+(17, 'God of War Ragnarök', 'Sony Interactive Entertainment', '2022-11-09', 69.99, 84.0, 5),
+(18, 'Star Wars Jedi: Survivor', 'Electronic Arts', '2023-04-28', 69.99, 155.0, 0),
+(19, 'The Legend of Zelda: Tears of the Kingdom', 'Nintendo', '2023-05-12', 69.99, 18.2, 0),
+(20, 'Cyberpunk 2077', 'CD Projekt', '2020-12-10', 59.99, 70.0, 50);
+
+
+INSERT INTO GameGenre (GameID, GenreID)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 5),
+(7, 1),
+(8, 4),
+(9, 2),
+(10, 1),
+(11, 1),
+(11, 3),
+(12, 1),
+(12, 3),
+(13, 1),
+(13, 7),
+(14, 1),
+(14, 2),
+(14, 5),
+(15, 8),
+(16, 1),
+(16, 7),
+(17, 1),
+(17, 2),
+(18, 1),
+(18, 2),
+(19, 1),
+(19, 2),
+(20, 1),
+(20, 3);
+
+
+INSERT INTO Review (SteamID, GameID, Rating, ReviewDate, ReviewText)
+VALUES
+('U32486649', 1, 1, '2024-10-05', 'Great action game with lots of thrill!'),
+('U8059985', 2, 1, '2023-10-07', 'Loved the adventure elements and storyline.'),
+('U8059985', 3, 1, '2023-10-08', 'RPG Legends is a fantastic game with great depth!'),
+('U32486649', 4, 0, '2023-10-12', 'Too scary for me, but well made.'),
+('U59664725', 5, 1, '2023-10-16', 'Very relaxing and enjoyable simulation game.'),
+('U93456789', 6, 1, '2024-08-15', 'Loved the zombie action! Kept me on edge the whole time.'),
+('U46234598', 7, 1, '2024-08-17', 'Dragon Fury is an epic game with intense battles!'),
+('U11029876', 8, 0, '2024-08-20', 'Racing was fun, but it lacked depth.'),
+('U75839245', 9, 1, '2024-08-25', 'Great mystery and suspense, enjoyed every moment!'),
+('U99813452', 10, 1, '2024-08-30', 'Future War is a masterpiece. Stunning visuals and deep gameplay.');
+
+
+INSERT INTO [Transaction] (TransactionID, SteamID, GameID, TransactionDate, Amount)
+VALUES
+(1, 'U32486649', 1, '2024-09-15', 53.99),
+(2, 'U8059985', 2, '2024-09-16', 49.99),
+(3, 'U592950924', 3, '2024-09-17', 55.99),
+(4, 'U293004458', 4, '2024-09-18', 39.09),
+(5, 'U7081294', 5, '2024-09-19', 37.99),
+(6, 'U93456789', 6, '2024-08-15', 33.99),
+(7, 'U46234598', 7, '2024-08-17', 56.99),
+(8, 'U11029876', 8, '2024-08-20', 44.99),
+(9, 'U75839245', 9, '2024-08-25', 35.99),
+(10, 'U99813452', 10, '2024-08-30', 69.99);
+
+
+INSERT INTO SteamLibrary (SteamID)
+VALUES
+('U32486649'),
+('U8059985'),
+('U592950924'),
+('U293004458'),
+('U7081294'),
+('U93620951'),
+('U24696879'),
+('U59664725'),
+('U93456789'),
+('U46234598'),
+('U11029876'),
+('U75839245'),
+('U99813452');
+
+
+INSERT INTO InstallStatus (StatusID, [Name])
+VALUES
+(0, 'Not Installed'),
+(1, 'Installing'),
+(2, 'Installed'),
+(3, 'Paused');
+
+
+INSERT INTO LibraryEntry (LibraryID, GameID, InstallStatusID, Playtime, DateAdded, LastPlayed)
+VALUES
+('U32486649', 1, 2, 15.5, '2024-09-15', '2024-10-12'),
+('U8059985', 2, 2, 8.0, '2024-09-16', '2024-10-01'),
+('U592950924', 3, 3, 10.0, '2024-09-17', '2024-09-17'),
+('U293004458', 4, 1, 0.0, '2024-09-18', NULL),
+('U7081294', 5, 0, 0.0, '2024-09-19', NULL),
+('U93456789', 6, 2, 10.5, '2024-08-15', '2024-08-22'),
+('U46234598', 7, 2, 12.0, '2024-08-17', '2024-08-19'),
+('U11029876', 8, 0, 0.0, '2024-08-20', NULL),
+('U75839245', 9, 1, 5.0, '2024-08-25', '2024-08-25'),
+('U99813452', 10, 2, 20.0, '2024-08-30', '2024-09-02'),
+('U32486649', 11, 2, 20.0, '2024-09-20', '2024-10-10'),
+('U8059985', 12, 0, 0.0, '2024-09-21', NULL),
+('U592950924', 13, 1, 2.5, '2024-09-22', NULL),
+('U293004458', 14, 3, 12.0, '2024-09-23', '2024-09-23'),
+('U7081294', 15, 2, 50.0, '2024-09-24', '2024-10-12'),
+('U7081294', 16, 2, 35.0, '2024-09-25', '2024-10-05'),
+('U293004458', 17, 3, 15.5, '2024-09-26', '2024-09-30'),
+('U592950924', 18, 1, 0.5, '2024-09-27', NULL),
+('U8059985', 19, 0, 0.0, '2024-09-28', NULL),
+('U32486649', 20, 2, 45.0, '2024-09-29', '2024-10-10');
+
+
+INSERT INTO Achievement (AchievementID, GameID, [Name], Requirements, GlobalAchievementPercentage)
+VALUES
+(1, 1, 'First Win', 'Win the first level', 0.0),
+(2, 2, 'Explorer', 'Explore all locations', 0.0),
+(3, 3, 'Level 50', 'Reach level 50', 0.0),
+(4, 4, 'Builder', 'Build 10 structures', 0.0),
+(5, 5, 'Survivor', 'Survive 5 nights', 0.0),
+(6, 6, 'Zombie Slayer', 'Defeat 100 zombies', 0.0),
+(7, 7, 'Dragon Master', 'Defeat the final boss dragon', 0.0),
+(8, 8, 'Speed Demon', 'Finish a race in under 2 minutes', 0.0),
+(9, 9, 'Master Detective', 'Solve the final mystery', 0.0),
+(10, 10, 'War Hero', 'Complete the final mission', 0.0),
+(11, 11, 'Erdtree Guardian', 'Defeat a major Erdtree Avatar', 12.5),
+(12, 11, 'Ring of Power', 'Obtain the Elden Ring', 2.3),
+(13, 12, 'Sky Climber', 'Climb to the highest peak in the Forbidden West', 8.1),
+(14, 12, 'Master of Machines', 'Override 20 machines', 15.2),
+(15, 13, 'Spartan Legend', 'Win 50 multiplayer matches', 9.8),
+(16, 13, 'War Chief', 'Complete the Halo Infinite campaign', 7.5),
+(17, 14, 'Village Defender', 'Survive the village siege', 25.0),
+(18, 14, 'Vampire Hunter', 'Defeat Lady Dimitrescu', 13.7),
+(19, 15, 'Festival Champion', 'Win the Horizon Festival final race', 11.9),
+(20, 15, 'Speed Demon', 'Reach 300 mph in any car', 4.5),
+(21, 16, 'Elite Operator', 'Reach max level in multiplayer', 6.2),
+(22, 16, 'Ghost', 'Complete the campaign on Veteran difficulty', 2.8),
+(23, 17, 'God Slayer', 'Defeat the final boss', 10.4),
+(24, 17, 'Weapon Master', 'Fully upgrade all weapons', 7.9),
+(25, 18, 'Survivor', 'Escape from the empire', 14.7),
+(26, 18, 'Jedi Master', 'Unlock all force abilities', 5.6),
+(27, 19, 'King of Hyrule', 'Defeat the final boss and save Hyrule', 12.9),
+(28, 19, 'Sky Explorer', 'Explore all Sky Islands', 8.3),
+(29, 20, 'Cybernetically Enhanced', 'Unlock all cyberware slots', 3.7),
+(30, 20, 'Rebel with a Cause', 'Complete all main story missions', 5.0);
+
+
+INSERT INTO PersonalAchievement (SteamID, AchievementID, Status, ProgressPercentage, DateCompleted)
+VALUES
+('U32486649', 1, 1, 100.0, '2024-09-18'),
+('U8059985', 2, 1, 100.0, '2024-09-20'),
+('U592950924', 3, 0, 45.0, NULL),
+('U293004458', 4, 0, 20.0, NULL),
+('U7081294', 5, 1, 100.0, '2024-09-26'),
+('U93456789', 6, 0, 80.0, NULL),
+('U46234598', 7, 1, 100.0, '2024-08-18'),
+('U11029876', 8, 0, 30.0, NULL),
+('U75839245', 9, 1, 100.0, '2024-08-27'),
+('U99813452', 10, 1, 100.0, '2024-09-03'),
+('U32486649', 11, 0, 80.0, NULL),
+('U32486649', 12, 1, 100.0, '2024-08-18'),
+('U8059985', 13, 0, 30.0, NULL),
+('U8059985', 14, 1, 100.0, '2024-08-27'),
+('U592950924', 15, 1, 100.0, '2024-09-03'),
+('U592950924', 16, 1, 100.0, '2024-09-03'),
+('U293004458', 17, 1, 100.0, '2024-09-03'),
+('U293004458', 18, 1, 100.0, '2024-09-03'),
+('U7081294', 19, 1, 100.0, '2024-09-03'),
+('U7081294', 20, 1, 100.0, '2024-09-03'),
+('U7081294', 21, 1, 100.0, '2024-09-03'),
+('U7081294', 22, 1, 100.0, '2024-09-03'),
+('U293004458', 23, 1, 100.0, '2024-09-03'),
+('U293004458', 24, 1, 100.0, '2024-09-03'),
+('U592950924', 25, 1, 100.0, '2024-09-03'),
+('U592950924', 26, 1, 100.0, '2024-09-03'),
+('U8059985', 27, 1, 100.0, '2024-09-03'),
+('U8059985', 28, 1, 100.0, '2024-09-03'),
+('U32486649', 29, 1, 100.0, '2024-09-03'),
+('U32486649', 30, 1, 100.0, '2024-09-03');

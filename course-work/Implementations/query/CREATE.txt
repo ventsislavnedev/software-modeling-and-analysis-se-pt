@@ -1,0 +1,192 @@
+
+CREATE DATABASE Steam2;
+GO
+
+USE Steam2
+
+CREATE TABLE SteamAccount (
+    SteamID VARCHAR(50) PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL,
+	DisplayName NVARCHAR(50) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    PhoneNumber VARCHAR(20),
+    TwoFactorAuth BIT DEFAULT 0 NOT NULL,
+    Balance DECIMAL(10, 2) DEFAULT 0.00 NOT NULL
+);
+
+CREATE TABLE Genre (
+	GenreID TINYINT PRIMARY KEY,
+	[Name] VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Game (
+    GameID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Publisher VARCHAR(100) NOT NULL,
+    ReleaseDate DATE,
+    Price DECIMAL(10, 2),
+    SpaceRequired DECIMAL(10, 2),
+    DiscountPercentage TINYINT,
+    PriceAfterDiscount AS CAST(ROUND(Price * (1 - DiscountPercentage / 100.0), 2) AS DECIMAL(10, 2)) PERSISTED
+);
+
+CREATE TABLE GameGenre (
+	GameID INT FOREIGN KEY REFERENCES Game(GameID),
+	GenreID TINYINT FOREIGN KEY REFERENCES Genre(GenreID),
+	PRIMARY KEY(GameID, GenreID)
+)
+
+
+CREATE TABLE Review (
+    SteamID VARCHAR(50) FOREIGN KEY REFERENCES SteamAccount(SteamID),
+    GameID INT FOREIGN KEY REFERENCES Game(GameID),
+    Rating BIT,
+    ReviewDate DATE NOT NULL,
+    ReviewText NVARCHAR(2048) NOT NULL,
+	PRIMARY KEY (SteamID, GameID)
+);
+
+CREATE TABLE [Transaction] (
+    TransactionID INT PRIMARY KEY,
+    SteamID VARCHAR(50) FOREIGN KEY REFERENCES SteamAccount(SteamID),
+    GameID INT FOREIGN KEY REFERENCES Game(GameID),
+    TransactionDate DATE NOT NULL,
+    Amount DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE SteamLibrary (
+    SteamID VARCHAR(50) PRIMARY KEY FOREIGN KEY REFERENCES SteamAccount(SteamID)
+);
+
+CREATE TABLE InstallStatus (
+	StatusID TINYINT PRIMARY KEY,
+	[Name] VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE LibraryEntry (
+    LibraryID VARCHAR(50) FOREIGN KEY REFERENCES SteamLibrary(SteamID),
+    GameID INT FOREIGN KEY REFERENCES Game(GameID),
+	InstallStatusID TINYINT FOREIGN KEY REFERENCES InstallStatus(StatusID),
+    Playtime DECIMAL(8, 1) DEFAULT 0.0 NOT NULL,
+    DateAdded DATE NOT NULL,
+    LastPlayed DATE,
+	PRIMARY KEY(LibraryID, GameID)
+);
+
+CREATE TABLE Achievement (
+    AchievementID INT PRIMARY KEY,
+    GameID INT FOREIGN KEY REFERENCES Game(GameID),
+    Name VARCHAR(100) NOT NULL,
+    Requirements NVARCHAR(255),
+	GlobalAchievementPercentage DECIMAL(5, 2) DEFAULT 0.0
+);
+
+CREATE TABLE PersonalAchievement (
+    SteamID VARCHAR(50) FOREIGN KEY REFERENCES SteamAccount(SteamID),
+    AchievementID INT FOREIGN KEY REFERENCES Achievement(AchievementID),
+    Status BIT,
+    ProgressPercentage DECIMAL(5, 2),
+    DateCompleted DATE,
+    CONSTRAINT PersonalAchievement_PK PRIMARY KEY (SteamID, AchievementID)
+);
+
+
+-- Triggers
+CREATE TRIGGER trg_UpdateGlobalAchievementPercentage
+ON PersonalAchievement
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Achievement
+    SET GlobalAchievementPercentage = CAST(
+            (SELECT COUNT(*) * 100.0
+             FROM PersonalAchievement p
+             WHERE p.AchievementID = Achievement.AchievementID
+               AND p.Status = 1)
+            /
+            NULLIF((SELECT COUNT(*)
+                    FROM PersonalAchievement p
+                    WHERE p.AchievementID = Achievement.AchievementID), 0)
+            AS DECIMAL(5, 2)
+        )
+    FROM Achievement
+    WHERE Achievement.AchievementID IN (
+        SELECT DISTINCT AchievementID FROM inserted
+        UNION
+        SELECT DISTINCT AchievementID FROM deleted
+    );
+END;
+
+
+CREATE TRIGGER trg_UpdateAchievementStatus
+ON PersonalAchievement
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE PersonalAchievement
+    SET Status = 1, DateCompleted = GETDATE()
+    FROM PersonalAchievement p
+    INNER JOIN inserted i ON p.SteamID = i.SteamID AND p.AchievementID = i.AchievementID
+    WHERE i.ProgressPercentage = 100.0;
+END;
+
+
+-- Procedures
+CREATE PROCEDURE GetAccountTransactions
+    @SteamID VARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT 
+        t.TransactionID,
+        t.TransactionDate,
+        t.Amount,
+        g.Name AS Game
+    FROM [Transaction] t
+    INNER JOIN Game g ON t.GameID = g.GameID
+    WHERE t.SteamID = @SteamID;
+END;
+
+CREATE PROCEDURE AddGameToLibrary
+	@SteamID varchar(50), @GameID INT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM LibraryEntry WHERE LibraryID = @SteamID AND GameID = @GameID)
+    BEGIN
+        RAISERROR('User already owns the game', 16, 1)
+    END
+    ELSE
+    BEGIN
+        INSERT INTO LibraryEntry (LibraryID, GameID)
+        VALUES(@SteamID,@GameID)
+    END
+END;
+
+
+-- Functions
+CREATE FUNCTION dbo.GetGamesByGenre(@GenreID TINYINT)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT g.GameID, g.Name, g.Publisher, g.ReleaseDate, g.Price, g.PriceAfterDiscount
+    FROM Game g
+    INNER JOIN GameGenre gg ON g.GameID = gg.GameID
+    WHERE gg.GenreID = @GenreID
+);
+
+
+CREATE FUNCTION dbo.GetTotalSpending(@SteamID VARCHAR(50))
+RETURNS DECIMAL(10, 2)
+AS
+BEGIN
+    RETURN (
+        SELECT SUM(Amount)
+        FROM [Transaction]
+        WHERE SteamID = @SteamID
+    );
+END;
